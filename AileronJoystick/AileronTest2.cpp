@@ -30,8 +30,8 @@ float aileron_defaults[2] = { max_positions[0] / 2, max_positions[1] / 2 };
 float aileron_targets[2] = { aileron_defaults[0], aileron_defaults[1] };
 float aileron_up_vals[2] = { max_positions[0] * 9 / 16, max_positions[1] * 9 / 16 };
 float aileron_down_vals[2] = { max_positions[0] * 7 / 16, max_positions[1] * 7 / 16 };
-float aileron_joystick_weight[2][2] = { { max_positions[0] * 2 / 16, max_positions[0] * 2 / 16 },
-    { max_positions[1] * 1 / 16, max_positions[1] * 1 / 16 } };
+float aileron_joystick_weight[2][2] = { { max_positions[0] * 7 / 16, max_positions[0] * 2 / 16 },
+    { max_positions[1] * 7 / 16, max_positions[1] * 2 / 16 } };
 int aileron_force;
 
 int port_number[NUM_MOTORS];
@@ -43,6 +43,7 @@ void calculate_targets_haptic() {
     if (!mode_set) {
         for (int i = 0; i < NUM_MOTORS; i++) {
             motors[i].write_registers(S0_GAIN_N_MM, 6, spring_configuration);
+            motors[i].write_register(I0_GAIN_NS2_MM, uint16_t(0.001));
             motors[i].write_register(HAPTIC_STATUS, Actuator::Spring0);
             motors[i].set_mode(Actuator::HapticMode);
         }
@@ -78,13 +79,13 @@ void startText() {
 }
 
 void instructText() {
-    cout << endl << "W: Aileron Up" << endl;
-    cout << "A: Aileron Left" << endl;
-    cout << "S: Aileron Down" << endl;
-    cout << "D: Aileron Right" << endl;
-    cout << endl << "Up Arrow: Resume Aileron Control" << endl;
-    cout << "Down Arrow: Pause Aileron Control" << endl;
-    cout << "Escape: Close Program" << endl << endl;
+    cout << endl << "-Y: Aileron Up" << endl;
+    cout << " X: Aileron Left" << endl;
+    cout << "-X: Aileron Down" << endl;
+    cout << " Y: Aileron Right" << endl;
+    cout << endl << "Button 5: Resume Aileron Control" << endl;
+    cout << "Button 6: Pause Aileron Control" << endl;
+    cout << "Button 7: Close Program" << endl << endl;
 }
 
 int main()
@@ -151,10 +152,6 @@ int main()
 
     instructText();
 
-    Sint16 joyBuf[2] = { 0, 0 };
-    bool joyDif[2];
-    int bufferAmount = 2000;
-
     while (1) {
         SDL_Event ev;
 
@@ -174,27 +171,19 @@ int main()
             else if (SDL_JoystickGetButton(joy, 6)) {
                 motors[0].set_mode(Actuator::SleepMode);
                 motors[1].set_mode(Actuator::SleepMode);
-                SDL_JoystickClose(joy);
                 exit(1);
             }
 
-            joyDif[0] = abs(SDL_JoystickGetAxis(joy, 0) - joyBuf[0]) > bufferAmount;
-            joyDif[1] = abs(SDL_JoystickGetAxis(joy, 1) - joyBuf[1]) > bufferAmount;
+            /*float joyCalc[2]{ aileron_defaults[0] + (SDL_JoystickGetAxis(joy, 1) / -32767.0 * aileron_joystick_weight[0][1] + SDL_JoystickGetAxis(joy, 0) / 32767.0 * aileron_joystick_weight[0][0]),
+                aileron_defaults[1] + (SDL_JoystickGetAxis(joy, 1) / -32767.0 * aileron_joystick_weight[1][1] - SDL_JoystickGetAxis(joy, 0) / 32767.0 * aileron_joystick_weight[1][0])
+            };*/
 
-            if (joyDif[0] || joyDif[1]) {
-                float joyCalc[2]{ aileron_defaults[0] + (SDL_JoystickGetAxis(joy, 1) / -32767 * aileron_joystick_weight[0][1] + SDL_JoystickGetAxis(joy, 0) / 32767 * aileron_joystick_weight[0][0]),
-                    aileron_defaults[1] + (SDL_JoystickGetAxis(joy, 1) / -32767 * aileron_joystick_weight[1][1] - SDL_JoystickGetAxis(joy, 0) / 32767 * aileron_joystick_weight[1][0])
-                };
+            float joyCalc[2]{ aileron_defaults[0] + SDL_JoystickGetAxis(joy, 0) / 32767.0 * aileron_joystick_weight[0][0],
+                aileron_defaults[1] - SDL_JoystickGetAxis(joy, 0) / 32767.0 * aileron_joystick_weight[1][0]
+            };
 
-                aileron_targets[0] = joyCalc[0];
-                aileron_targets[1] = joyCalc[1];
-
-                joyBuf[0] = SDL_JoystickGetAxis(joy, 0);
-                joyBuf[1] = SDL_JoystickGetAxis(joy, 1);
-            }
-
-            cout << "X: " + String(joyDif[0]) << endl;
-            cout << "Y: " + String(joyDif[1]) << endl;
+            aileron_targets[0] = joyCalc[0];
+            aileron_targets[1] = joyCalc[1];
         }
     }
 
