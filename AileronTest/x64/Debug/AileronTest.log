@@ -1,1 +1,186 @@
-﻿  AileronTest.vcxproj -> \\MERLINCLOUD\Public\#MERLIN MACHINEWORKS#\IRIS Dynamics\IrisHAWK\AileronTest\x64\Debug\AileronTest.exe
+﻿  AileronTest1.cpp
+\\merlincloud\Public\(62,35): warning C4244: 'initializing': conversion from 'uint64_t' to 'uint32_t', possible loss of data
+  (compiling source file '../../../../#MERLIN%20MACHINEWORKS#/IRIS%20Dynamics/IrisHAWK/AileronTest/AileronTest1.cpp')
+  
+\\merlincloud\Public\(44,28): warning C4244: '=': conversion from 'double' to 'uint32_t', possible loss of data
+  (compiling source file '../../../../#MERLIN%20MACHINEWORKS#/IRIS%20Dynamics/IrisHAWK/AileronTest/AileronTest1.cpp')
+  
+\\merlincloud\Public\(45,26): warning C4244: '=': conversion from 'float' to 'uint32_t', possible loss of data
+  (compiling source file '../../../../#MERLIN%20MACHINEWORKS#/IRIS%20Dynamics/IrisHAWK/AileronTest/AileronTest1.cpp')
+  
+\\merlincloud\Public\(66,45): warning C4244: '=': conversion from 'unsigned __int64' to 'int32_t', possible loss of data
+  (compiling source file '../../../../#MERLIN%20MACHINEWORKS#/IRIS%20Dynamics/IrisHAWK/AileronTest/AileronTest1.cpp')
+  
+\\merlincloud\Public\(80,44): warning C4244: '=': conversion from 'unsigned __int64' to 'int32_t', possible loss of data
+  (compiling source file '../../../../#MERLIN%20MACHINEWORKS#/IRIS%20Dynamics/IrisHAWK/AileronTest/AileronTest1.cpp')
+  
+\\merlincloud\Public\(107,24): warning C4244: '=': conversion from 'double' to 'uint32_t', possible loss of data
+  (compiling source file '../../../../#MERLIN%20MACHINEWORKS#/IRIS%20Dynamics/IrisHAWK/AileronTest/AileronTest1.cpp')
+  
+\\merlincloud\Public\(165,38): warning C4244: '=': conversion from 'float' to 'int32_t', possible loss of data
+  (compiling source file '../../../../#MERLIN%20MACHINEWORKS#/IRIS%20Dynamics/IrisHAWK/AileronTest/AileronTest1.cpp')
+  
+\\merlincloud\Public\(186,47): warning C4244: '=': conversion from 'uint64_t' to 'short', possible loss of data
+  (compiling source file '../../../../#MERLIN%20MACHINEWORKS#/IRIS%20Dynamics/IrisHAWK/AileronTest/AileronTest1.cpp')
+  
+\\merlincloud\Public\(191,31): warning C4244: '=': conversion from 'uint64_t' to 'short', possible loss of data
+  (compiling source file '../../../../#MERLIN%20MACHINEWORKS#/IRIS%20Dynamics/IrisHAWK/AileronTest/AileronTest1.cpp')
+  
+\\merlincloud\Public\(196,32): warning C4244: '=': conversion from 'uint64_t' to 'short', possible loss of data
+  (compiling source file '../../../../#MERLIN%20MACHINEWORKS#/IRIS%20Dynamics/IrisHAWK/AileronTest/AileronTest1.cpp')
+  
+\\merlincloud\Public\(201,32): warning C4244: '=': conversion from 'uint64_t' to 'short', possible loss of data
+  (compiling source file '../../../../#MERLIN%20MACHINEWORKS#/IRIS%20Dynamics/IrisHAWK/AileronTest/AileronTest1.cpp')
+  
+\\merlincloud\Public\(313,26): warning C4244: '=': conversion from 'uint16_t' to 'uint8_t', possible loss of data
+  (compiling source file '../../../../#MERLIN%20MACHINEWORKS#/IRIS%20Dynamics/IrisHAWK/AileronTest/AileronTest1.cpp')
+  
+\\merlincloud\Public\(315,26): warning C4244: '=': conversion from 'uint16_t' to 'uint8_t', possible loss of data
+  (compiling source file '../../../../#MERLIN%20MACHINEWORKS#/IRIS%20Dynamics/IrisHAWK/AileronTest/AileronTest1.cpp')
+  
+\\merlincloud\Public\(341,54): warning C4267: 'argument': conversion from 'size_t' to 'DWORD', possible loss of data
+  (compiling source file '../../../../#MERLIN%20MACHINEWORKS#/IRIS%20Dynamics/IrisHAWK/AileronTest/AileronTest1.cpp')
+  
+\\merlincloud\Public\(349,39): warning C4312: 'type cast': conversion from 'DWORD' to 'LPCWSTR' of greater size
+  (compiling source file '../../../../#MERLIN%20MACHINEWORKS#/IRIS%20Dynamics/IrisHAWK/AileronTest/AileronTest1.cpp')
+  
+\\merlincloud\Public\(438,35): warning C4312: 'type cast': conversion from 'DWORD' to 'LPCWSTR' of greater size
+  (compiling source file '../../../../#MERLIN%20MACHINEWORKS#/IRIS%20Dynamics/IrisHAWK/AileronTest/AileronTest1.cpp')
+  
+\\merlincloud\Public\(498,31): warning C4244: 'return': conversion from 'LONGLONG' to 'uint32_t', possible loss of data
+  (compiling source file '../../../../#MERLIN%20MACHINEWORKS#/IRIS%20Dynamics/IrisHAWK/AileronTest/AileronTest1.cpp')
+  
+\\merlincloud\Public\(232,38): warning C4244: '=': conversion from 'uint64_t' to 'uint32_t', possible loss of data
+  (compiling source file '../../../../#MERLIN%20MACHINEWORKS#/IRIS%20Dynamics/IrisHAWK/AileronTest/AileronTest1.cpp')
+  
+\\merlincloud\Public\(444,43): warning C4244: 'return': conversion from 'uint16_t' to 'uint8_t', possible loss of data
+  (compiling source file '../../../../#MERLIN%20MACHINEWORKS#/IRIS%20Dynamics/IrisHAWK/AileronTest/AileronTest1.cpp')
+  
+\\merlincloud\Public\(748,32): warning C4244: '=': conversion from 'uint16_t' to 'uint8_t', possible loss of data
+  (compiling source file '../../../../#MERLIN%20MACHINEWORKS#/IRIS%20Dynamics/IrisHAWK/AileronTest/AileronTest1.cpp')
+  
+\\merlincloud\Public\(846,51): warning C4244: 'argument': conversion from 'uint16_t' to 'uint8_t', possible loss of data
+  (compiling source file '../../../../#MERLIN%20MACHINEWORKS#/IRIS%20Dynamics/IrisHAWK/AileronTest/AileronTest1.cpp')
+  
+\\merlincloud\Public\(850,52): warning C4244: 'argument': conversion from 'uint16_t' to 'uint8_t', possible loss of data
+  (compiling source file '../../../../#MERLIN%20MACHINEWORKS#/IRIS%20Dynamics/IrisHAWK/AileronTest/AileronTest1.cpp')
+  
+\\merlincloud\Public\(32,48): warning C4838: conversion from 'int' to 'float' requires a narrowing conversion
+\\merlincloud\Public\(32,48): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+\\merlincloud\Public\(32,70): warning C4838: conversion from 'int' to 'float' requires a narrowing conversion
+\\merlincloud\Public\(32,70): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+\\merlincloud\Public\(34,50): warning C4838: conversion from 'int' to 'float' requires a narrowing conversion
+\\merlincloud\Public\(34,50): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+\\merlincloud\Public\(34,75): warning C4838: conversion from 'int' to 'float' requires a narrowing conversion
+\\merlincloud\Public\(34,75): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+\\merlincloud\Public\(35,52): warning C4838: conversion from 'int' to 'float' requires a narrowing conversion
+\\merlincloud\Public\(35,52): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+\\merlincloud\Public\(35,77): warning C4838: conversion from 'int' to 'float' requires a narrowing conversion
+\\merlincloud\Public\(35,77): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+\\merlincloud\Public\(53,40): warning C4244: '=': conversion from 'float' to 'int32_t', possible loss of data
+\\merlincloud\Public\(54,40): warning C4244: '=': conversion from 'float' to 'int32_t', possible loss of data
+  AileronTest2.cpp
+\\merlincloud\Public\(62,35): warning C4244: 'initializing': conversion from 'uint64_t' to 'uint32_t', possible loss of data
+  (compiling source file '../../../../#MERLIN%20MACHINEWORKS#/IRIS%20Dynamics/IrisHAWK/AileronTest/AileronTest2.cpp')
+  
+\\merlincloud\Public\(44,28): warning C4244: '=': conversion from 'double' to 'uint32_t', possible loss of data
+  (compiling source file '../../../../#MERLIN%20MACHINEWORKS#/IRIS%20Dynamics/IrisHAWK/AileronTest/AileronTest2.cpp')
+  
+\\merlincloud\Public\(45,26): warning C4244: '=': conversion from 'float' to 'uint32_t', possible loss of data
+  (compiling source file '../../../../#MERLIN%20MACHINEWORKS#/IRIS%20Dynamics/IrisHAWK/AileronTest/AileronTest2.cpp')
+  
+\\merlincloud\Public\(66,45): warning C4244: '=': conversion from 'unsigned __int64' to 'int32_t', possible loss of data
+  (compiling source file '../../../../#MERLIN%20MACHINEWORKS#/IRIS%20Dynamics/IrisHAWK/AileronTest/AileronTest2.cpp')
+  
+\\merlincloud\Public\(80,44): warning C4244: '=': conversion from 'unsigned __int64' to 'int32_t', possible loss of data
+  (compiling source file '../../../../#MERLIN%20MACHINEWORKS#/IRIS%20Dynamics/IrisHAWK/AileronTest/AileronTest2.cpp')
+  
+\\merlincloud\Public\(107,24): warning C4244: '=': conversion from 'double' to 'uint32_t', possible loss of data
+  (compiling source file '../../../../#MERLIN%20MACHINEWORKS#/IRIS%20Dynamics/IrisHAWK/AileronTest/AileronTest2.cpp')
+  
+\\merlincloud\Public\(165,38): warning C4244: '=': conversion from 'float' to 'int32_t', possible loss of data
+  (compiling source file '../../../../#MERLIN%20MACHINEWORKS#/IRIS%20Dynamics/IrisHAWK/AileronTest/AileronTest2.cpp')
+  
+\\merlincloud\Public\(186,47): warning C4244: '=': conversion from 'uint64_t' to 'short', possible loss of data
+  (compiling source file '../../../../#MERLIN%20MACHINEWORKS#/IRIS%20Dynamics/IrisHAWK/AileronTest/AileronTest2.cpp')
+  
+\\merlincloud\Public\(191,31): warning C4244: '=': conversion from 'uint64_t' to 'short', possible loss of data
+  (compiling source file '../../../../#MERLIN%20MACHINEWORKS#/IRIS%20Dynamics/IrisHAWK/AileronTest/AileronTest2.cpp')
+  
+\\merlincloud\Public\(196,32): warning C4244: '=': conversion from 'uint64_t' to 'short', possible loss of data
+  (compiling source file '../../../../#MERLIN%20MACHINEWORKS#/IRIS%20Dynamics/IrisHAWK/AileronTest/AileronTest2.cpp')
+  
+\\merlincloud\Public\(201,32): warning C4244: '=': conversion from 'uint64_t' to 'short', possible loss of data
+  (compiling source file '../../../../#MERLIN%20MACHINEWORKS#/IRIS%20Dynamics/IrisHAWK/AileronTest/AileronTest2.cpp')
+  
+\\merlincloud\Public\(313,26): warning C4244: '=': conversion from 'uint16_t' to 'uint8_t', possible loss of data
+  (compiling source file '../../../../#MERLIN%20MACHINEWORKS#/IRIS%20Dynamics/IrisHAWK/AileronTest/AileronTest2.cpp')
+  
+\\merlincloud\Public\(315,26): warning C4244: '=': conversion from 'uint16_t' to 'uint8_t', possible loss of data
+  (compiling source file '../../../../#MERLIN%20MACHINEWORKS#/IRIS%20Dynamics/IrisHAWK/AileronTest/AileronTest2.cpp')
+  
+\\merlincloud\Public\(341,54): warning C4267: 'argument': conversion from 'size_t' to 'DWORD', possible loss of data
+  (compiling source file '../../../../#MERLIN%20MACHINEWORKS#/IRIS%20Dynamics/IrisHAWK/AileronTest/AileronTest2.cpp')
+  
+\\merlincloud\Public\(349,39): warning C4312: 'type cast': conversion from 'DWORD' to 'LPCWSTR' of greater size
+  (compiling source file '../../../../#MERLIN%20MACHINEWORKS#/IRIS%20Dynamics/IrisHAWK/AileronTest/AileronTest2.cpp')
+  
+\\merlincloud\Public\(438,35): warning C4312: 'type cast': conversion from 'DWORD' to 'LPCWSTR' of greater size
+  (compiling source file '../../../../#MERLIN%20MACHINEWORKS#/IRIS%20Dynamics/IrisHAWK/AileronTest/AileronTest2.cpp')
+  
+\\merlincloud\Public\(498,31): warning C4244: 'return': conversion from 'LONGLONG' to 'uint32_t', possible loss of data
+  (compiling source file '../../../../#MERLIN%20MACHINEWORKS#/IRIS%20Dynamics/IrisHAWK/AileronTest/AileronTest2.cpp')
+  
+\\merlincloud\Public\(232,38): warning C4244: '=': conversion from 'uint64_t' to 'uint32_t', possible loss of data
+  (compiling source file '../../../../#MERLIN%20MACHINEWORKS#/IRIS%20Dynamics/IrisHAWK/AileronTest/AileronTest2.cpp')
+  
+\\merlincloud\Public\(444,43): warning C4244: 'return': conversion from 'uint16_t' to 'uint8_t', possible loss of data
+  (compiling source file '../../../../#MERLIN%20MACHINEWORKS#/IRIS%20Dynamics/IrisHAWK/AileronTest/AileronTest2.cpp')
+  
+\\merlincloud\Public\(748,32): warning C4244: '=': conversion from 'uint16_t' to 'uint8_t', possible loss of data
+  (compiling source file '../../../../#MERLIN%20MACHINEWORKS#/IRIS%20Dynamics/IrisHAWK/AileronTest/AileronTest2.cpp')
+  
+\\merlincloud\Public\(846,51): warning C4244: 'argument': conversion from 'uint16_t' to 'uint8_t', possible loss of data
+  (compiling source file '../../../../#MERLIN%20MACHINEWORKS#/IRIS%20Dynamics/IrisHAWK/AileronTest/AileronTest2.cpp')
+  
+\\merlincloud\Public\(850,52): warning C4244: 'argument': conversion from 'uint16_t' to 'uint8_t', possible loss of data
+  (compiling source file '../../../../#MERLIN%20MACHINEWORKS#/IRIS%20Dynamics/IrisHAWK/AileronTest/AileronTest2.cpp')
+  
+\\merlincloud\Public\(33,48): warning C4838: conversion from 'int' to 'float' requires a narrowing conversion
+\\merlincloud\Public\(33,48): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+\\merlincloud\Public\(33,70): warning C4838: conversion from 'int' to 'float' requires a narrowing conversion
+\\merlincloud\Public\(33,70): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+\\merlincloud\Public\(35,51): warning C4838: conversion from 'int' to 'float' requires a narrowing conversion
+\\merlincloud\Public\(35,51): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+\\merlincloud\Public\(35,78): warning C4838: conversion from 'int' to 'float' requires a narrowing conversion
+\\merlincloud\Public\(35,78): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+\\merlincloud\Public\(36,53): warning C4838: conversion from 'int' to 'float' requires a narrowing conversion
+\\merlincloud\Public\(36,53): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+\\merlincloud\Public\(36,80): warning C4838: conversion from 'int' to 'float' requires a narrowing conversion
+\\merlincloud\Public\(36,80): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+\\merlincloud\Public\(54,40): warning C4244: '=': conversion from 'float' to 'int32_t', possible loss of data
+\\merlincloud\Public\(55,40): warning C4244: '=': conversion from 'float' to 'int32_t', possible loss of data
+  Generating Code...
+AileronTest2.obj : error LNK2005: "void __cdecl calculate_targets_haptic(void)" (?calculate_targets_haptic@@YAXXZ) already defined in AileronTest1.obj
+AileronTest2.obj : error LNK2005: "public: int __cdecl Signal_Generator::get_target_value(void)" (?get_target_value@Signal_Generator@@QEAAHXZ) already defined in AileronTest1.obj
+AileronTest2.obj : error LNK2005: "public: void __cdecl Signal_Generator::init(void)" (?init@Signal_Generator@@QEAAXXZ) already defined in AileronTest1.obj
+AileronTest2.obj : error LNK2005: "void __cdecl motor_comms(void)" (?motor_comms@@YAXXZ) already defined in AileronTest1.obj
+AileronTest2.obj : error LNK2005: "public: int __cdecl Signal_Generator::run(void)" (?run@Signal_Generator@@QEAAHXZ) already defined in AileronTest1.obj
+AileronTest2.obj : error LNK2005: "public: void __cdecl Signal_Generator::set_init_value(int *)" (?set_init_value@Signal_Generator@@QEAAXPEAH@Z) already defined in AileronTest1.obj
+AileronTest2.obj : error LNK2005: "private: static unsigned int Transaction::id_assigner" (?id_assigner@Transaction@@0IA) already defined in AileronTest1.obj
+AileronTest2.obj : error LNK2005: "struct IrisClientApplication::ConnectionConfig connection_params" (?connection_params@@3UConnectionConfig@IrisClientApplication@@A) already defined in AileronTest1.obj
+AileronTest2.obj : error LNK2005: "unsigned short * spring_configuration" (?spring_configuration@@3PAGA) already defined in AileronTest1.obj
+AileronTest2.obj : error LNK2005: "int * max_positions" (?max_positions@@3PAHA) already defined in AileronTest1.obj
+AileronTest2.obj : error LNK2005: "bool mode_set" (?mode_set@@3_NA) already defined in AileronTest1.obj
+AileronTest2.obj : error LNK2005: "int * final_target" (?final_target@@3PAHA) already defined in AileronTest1.obj
+AileronTest2.obj : error LNK2005: "int aileron_force" (?aileron_force@@3HA) already defined in AileronTest1.obj
+AileronTest2.obj : error LNK2005: "int * port_number" (?port_number@@3PAHA) already defined in AileronTest1.obj
+AileronTest2.obj : error LNK2005: "class Actuator * motors" (?motors@@3PAVActuator@@A) already defined in AileronTest1.obj
+AileronTest2.obj : error LNK2005: "float * aileron_defaults" (?aileron_defaults@@3PAMA) already defined in AileronTest1.obj
+AileronTest2.obj : error LNK2005: "float * aileron_targets" (?aileron_targets@@3PAMA) already defined in AileronTest1.obj
+AileronTest2.obj : error LNK2005: "float * aileron_up_vals" (?aileron_up_vals@@3PAMA) already defined in AileronTest1.obj
+AileronTest2.obj : error LNK2005: "float * aileron_down_vals" (?aileron_down_vals@@3PAMA) already defined in AileronTest1.obj
+AileronTest2.obj : error LNK2019: unresolved external symbol SDL_GetError referenced in function SDL_main
+AileronTest2.obj : error LNK2019: unresolved external symbol SDL_CreateWindow referenced in function SDL_main
+AileronTest2.obj : error LNK2019: unresolved external symbol SDL_Init referenced in function SDL_main
+\\MERLINCLOUD\Public\#MERLIN MACHINEWORKS#\IRIS Dynamics\IrisHAWK\AileronTest\x64\Debug\AileronTest.exe : fatal error LNK1120: 3 unresolved externals

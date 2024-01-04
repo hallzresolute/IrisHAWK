@@ -1,5 +1,5 @@
-#include "library_linker.h"
-#include "modbus_client/device_applications/actuator.h"
+#include "../libraries/library_linker.h"
+#include "../libraries/modbus_client/device_applications/actuator.h"
 #include <iostream>
 #include <winuser.h>
 #include <conio.h>
@@ -115,43 +115,49 @@ int main()
 
     thread mthread(motor_comms); //process motor communications in seperate thread
 
+    cout << endl << "W: Aileron Up" << endl;
+    cout << "A: Aileron Left" << endl;
+    cout << "S: Aileron Down" << endl;
+    cout << "D: Aileron Right" << endl;
     cout << endl << "Up Arrow: Resume Aileron Control" << endl;
     cout << "Down Arrow: Pause Aileron Control" << endl;
-    cout << "A: Aileron Left" << endl;
-    cout << "D: Aileron Right" << endl;
     cout << "Escape: Close Program" << endl;
 
     int c;
     while (1) {
-        if (GetKeyState('A') < 0) {
+        if (GetKeyState('W') < 0) {
             aileron_targets[0] = aileron_up_vals[0];
-            aileron_targets[1] = aileron_down_vals[1];
-        }
-        else if (GetKeyState('D') < 0) {
+            aileron_targets[1] = aileron_up_vals[1];
+        } else if (GetKeyState('A') < 0) {
             aileron_targets[0] = aileron_down_vals[0];
             aileron_targets[1] = aileron_up_vals[1];
-        }
-        else {
+        } else if (GetKeyState('S') < 0) {
+            aileron_targets[0] = aileron_down_vals[0];
+            aileron_targets[1] = aileron_down_vals[1];
+        } else if (GetKeyState('D') < 0) {
+            aileron_targets[0] = aileron_down_vals[0];
+            aileron_targets[1] = aileron_up_vals[1];
+        } else {
             aileron_targets[0] = aileron_defaults[0];
             aileron_targets[1] = aileron_defaults[1];
             c = 0;
             switch ((c = _getch())) {
-            case KEY_UP:
-                motors[0].set_mode(Actuator::HapticMode);
-                motors[1].set_mode(Actuator::HapticMode);
-                cout << "Resuming Aileron Control" << endl;
-                break;
-            case KEY_DOWN:
-                motors[0].set_mode(Actuator::SleepMode);
-                motors[1].set_mode(Actuator::SleepMode);
-                cout << "Motors to Sleep" << endl;
-                cout << "Press Up Arrow to return Control" << endl;
-                break;
-            case KEY_ESCAPE:
-                motors[0].set_mode(Actuator::SleepMode);
-                motors[1].set_mode(Actuator::SleepMode);
-                exit(0);
-                break;
+                case KEY_UP:
+                    motors[0].set_mode(Actuator::HapticMode);
+                    motors[1].set_mode(Actuator::HapticMode);
+                    cout << "Resuming Aileron Control" << endl;
+                    break;
+                case KEY_DOWN:
+                    motors[0].set_mode(Actuator::SleepMode);
+                    motors[1].set_mode(Actuator::SleepMode);
+                    cout << "Motors to Sleep" << endl;
+                    cout << "Press Up Arrow to return Control" << endl;
+                    break;
+                case KEY_ESCAPE:
+                    motors[0].set_mode(Actuator::SleepMode);
+                    motors[1].set_mode(Actuator::SleepMode);
+                    exit(0);
+                    break;
             }
         }
     }
