@@ -36,14 +36,19 @@ int aileron_force;
 
 int port_number[NUM_MOTORS];
 
+#define Y_AXIS_USED false
+
 /** @brief This function does the basic set up to set the spring configuration and enable effects, then calculates the appropriate spring center for each motor.
 */
 void calculate_targets_haptic() {
 
     if (!mode_set) {
         for (int i = 0; i < NUM_MOTORS; i++) {
+            motors[i].write_register(D0_GAIN_NS_MM, uint16_t(5000));
+            motors[i].write_register(HAPTIC_STATUS, Actuator::Damper);
+            motors[i].write_register(I0_GAIN_NS2_MM, uint16_t(5000));
+            motors[i].write_register(HAPTIC_STATUS, Actuator::Inertia);
             motors[i].write_registers(S0_GAIN_N_MM, 6, spring_configuration);
-            motors[i].write_register(I0_GAIN_NS2_MM, uint16_t(0.001));
             motors[i].write_register(HAPTIC_STATUS, Actuator::Spring0);
             motors[i].set_mode(Actuator::HapticMode);
         }
@@ -73,19 +78,36 @@ void motor_comms() {
 }
 
 void startText() {
-    cout << "------------------------------------------------------------------" << endl;
-    cout << "Welcome to the Merlin Machine Works joystick test using IRIS Orcas" << endl;
-    cout << "------------------------------------------------------------------" << endl << endl;
+    system("cls");
+    cout << "  /------------------------------------------------------------------\\ " << endl;
+    cout << " /                                                                    \\ " << endl;
+    cout << "|  Welcome to the Merlin Machine Works joystick test using IRIS Orcas  |" << endl;
+    cout << " \\                                                                    /" << endl;
+    cout << "  \\------------------------------------------------------------------/" << endl << endl;
 }
 
 void instructText() {
-    cout << endl << "-Y: Aileron Up" << endl;
-    cout << " X: Aileron Left" << endl;
-    cout << "-X: Aileron Down" << endl;
-    cout << " Y: Aileron Right" << endl;
-    cout << endl << "Button 5: Resume Aileron Control" << endl;
-    cout << "Button 6: Pause Aileron Control" << endl;
+    if (Y_AXIS_USED) {
+        cout << " -Y Axis: Aileron Up" << endl;
+        cout << "  Y Axis: Aileron Down" << endl;
+    }
+    cout << "  X Axis: Aileron Left" << endl;
+    cout << " -X Axis: Aileron Right" << endl << endl;
+    
+    cout << "Button 5: Resume Motor Control" << endl;
+    cout << "Button 6: Pause Motor Control" << endl;
     cout << "Button 7: Close Program" << endl << endl;
+    cout << "-----------------------------------------------------------------------" << endl << endl;
+}
+
+void portText() {
+    cout << "Using ports " + String(port_number[0]) + " and " + String(port_number[1]) << endl << endl;
+}
+
+void allRunningText() {
+    startText();
+    portText();
+    instructText();
 }
 
 int main()
@@ -96,19 +118,18 @@ int main()
     SDL_Init(SDL_INIT_JOYSTICK);
     SDL_JoystickEventState(SDL_ENABLE);
     if (SDL_NumJoysticks() == 0) {
-        cout << "Your joystick is not connected! Please plug in a joystick" << endl;
+        cout << "No joystick found, please plug in a joystick" << endl;
         while (SDL_NumJoysticks() == 0) {
             SDL_Init(SDL_INIT_JOYSTICK);
         }
-        system("cls");
         startText();
     }
     SDL_Joystick* joy;
     joy = SDL_JoystickOpen(0);
 
     //allow user to choose comports to connect motors on
-    cout << "Connect 2 motors to begin. Ensure Comport Latency set to 1 ms in device manager" << endl;
-    cout << endl << "Enter port of the motor A's RS422" << endl;
+    cout << "Connect 2 motors to begin. Ensure Comport Latency is set to 1 ms in Device Manager" << endl;
+    cout << endl << "Enter port of the motor A's RS422: ";
     while (1) {
         string port_input;
         getline(cin, port_input);
@@ -117,10 +138,10 @@ int main()
             break;
         }
         catch (exception e) {
-            cout << "Error with entry. Please enter an integer." << endl;
+            cout << "Error with entry, please enter an integer" << endl;
         }
     }
-    cout << "Enter port of the motor B's RS422" << endl;
+    cout << "Enter port of the motor B's RS422: ";
     while (1) {
         string port_input;
         getline(cin, port_input);
@@ -129,14 +150,9 @@ int main()
             break;
         }
         catch (exception e) {
-            cout << "Error with entry. Please enter an integer." << endl;
+            cout << "Error with entry, please enter an integer" << endl;
         }
     }
-
-    system("cls");
-    startText();
-
-    cout << "Using ports " + String(port_number[0]) + " and " + String(port_number[1]) << endl;
 
     for (int i = 0; i < NUM_MOTORS; i++) {
         motors[i].set_new_comport(port_number[i]);
@@ -148,25 +164,31 @@ int main()
         motors[i].enable();
     }
 
-    thread mthread(motor_comms); //process motor communications in seperate thread
+    //process motor communications in seperate thread
+    thread mthread(motor_comms);
 
-    instructText();
+    allRunningText();
+
+    bool slep = false;
 
     while (1) {
         SDL_Event ev;
 
         while (SDL_PollEvent(&ev))
         {
-            if(SDL_JoystickGetButton(joy, 4)) {
+            if(SDL_JoystickGetButton(joy, 4) && slep) {
+                slep = false;
                 motors[0].set_mode(Actuator::HapticMode);
                 motors[1].set_mode(Actuator::HapticMode);
-                cout << "Resuming Aileron Control" << endl;
+                allRunningText();
+                cout << "Motor Control Resumed" << endl;
             }
-            else if (SDL_JoystickGetButton(joy, 5)) {
+            else if (SDL_JoystickGetButton(joy, 5) && !slep) {
+                slep = true;
                 motors[0].set_mode(Actuator::SleepMode);
                 motors[1].set_mode(Actuator::SleepMode);
+                allRunningText();
                 cout << "Motors to Sleep" << endl;
-                cout << "Press Up Arrow to return Control" << endl;
             }
             else if (SDL_JoystickGetButton(joy, 6)) {
                 motors[0].set_mode(Actuator::SleepMode);
@@ -174,13 +196,16 @@ int main()
                 exit(1);
             }
 
-            /*float joyCalc[2]{ aileron_defaults[0] + (SDL_JoystickGetAxis(joy, 1) / -32767.0 * aileron_joystick_weight[0][1] + SDL_JoystickGetAxis(joy, 0) / 32767.0 * aileron_joystick_weight[0][0]),
-                aileron_defaults[1] + (SDL_JoystickGetAxis(joy, 1) / -32767.0 * aileron_joystick_weight[1][1] - SDL_JoystickGetAxis(joy, 0) / 32767.0 * aileron_joystick_weight[1][0])
-            };*/
+            float joyCalc[2];
 
-            float joyCalc[2]{ aileron_defaults[0] + SDL_JoystickGetAxis(joy, 0) / 32767.0 * aileron_joystick_weight[0][0],
-                aileron_defaults[1] - SDL_JoystickGetAxis(joy, 0) / 32767.0 * aileron_joystick_weight[1][0]
-            };
+            if (Y_AXIS_USED) {
+                joyCalc[0] = aileron_defaults[0] + (SDL_JoystickGetAxis(joy, 1) / -32767.0 * aileron_joystick_weight[0][1] + SDL_JoystickGetAxis(joy, 0) / 32767.0 * aileron_joystick_weight[0][0]);
+                joyCalc[1] = aileron_defaults[1] + (SDL_JoystickGetAxis(joy, 1) / -32767.0 * aileron_joystick_weight[1][1] - SDL_JoystickGetAxis(joy, 0) / 32767.0 * aileron_joystick_weight[1][0]);
+            }
+            else {
+                joyCalc[0] = aileron_defaults[0] + SDL_JoystickGetAxis(joy, 0) / 32767.0 * aileron_joystick_weight[0][0];
+                joyCalc[1] = aileron_defaults[1] - SDL_JoystickGetAxis(joy, 0) / 32767.0 * aileron_joystick_weight[1][0];
+            }
 
             aileron_targets[0] = joyCalc[0];
             aileron_targets[1] = joyCalc[1];
