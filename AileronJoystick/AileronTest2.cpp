@@ -3,9 +3,10 @@
 #include <iostream>
 #include <stdlib.h>
 #include <thread>
+using namespace std;
+
 #define SDL_MAIN_HANDLED
 #include <SDL.h>
-using namespace std;
 
 #define NUM_MOTORS 2
 Actuator motors[NUM_MOTORS]{
@@ -14,39 +15,41 @@ Actuator motors[NUM_MOTORS]{
 };
 Actuator::ConnectionConfig connection_params;
 
-uint16_t spring_configuration[6] = { 6000                //spring gain
+uint16_t damper_configuration = 5000;           //desired motor dampening
+uint16_t inertia_configuration = 5000;          //desired motor inertial weight
+
+uint16_t spring_configuration[6] = { 6000               //spring gain
                                  , (uint16_t)(65000)    //spring center low register
                                  , (65000 >> 16)        //spring center high register
                                  ,  0                   //spring coupling 
                                  ,  0                   //spring dead zone 
-                                 ,  0 };                 //spring saturation
+                                 ,  0 };                //spring saturation
 
-int32_t max_positions[2] = { {130000}, {130000} };      //this is the total range of positions used to normalize position, this can be used to allow small movements on one motor to convert to large movements on another
+int max_pos[2] = { {130000}, {130000} };            //the total range of motor positions
 
-bool mode_set = false;
-int32_t final_target[2];        //Spring center target positions
+int pos_defs[2] = { max_pos[0] / 2, max_pos[1] / 2 };         //our "back to center" values
+int spring_targets[2] = { pos_defs[0], pos_defs[1] };       //spring center target positions
 
-float aileron_defaults[2] = { max_positions[0] / 2, max_positions[1] / 2 };
-float aileron_targets[2] = { aileron_defaults[0], aileron_defaults[1] };
-float aileron_up_vals[2] = { max_positions[0] * 9 / 16, max_positions[1] * 9 / 16 };
-float aileron_down_vals[2] = { max_positions[0] * 7 / 16, max_positions[1] * 7 / 16 };
-float aileron_joystick_weight[2][2] = { { max_positions[0] * 7 / 16, max_positions[0] * 2 / 16 },
-    { max_positions[1] * 7 / 16, max_positions[1] * 2 / 16 } };
-int aileron_force;
+int joy_weights[2][2] = {                        //How far the motor moves at max joystick throw. First dimension is the motor, second dimension is the axis(X, Y)
+    { max_pos[0] * 7 / 16, max_pos[0] * 2 / 16 },
+    { max_pos[1] * 7 / 16, max_pos[1] * 2 / 16 }
+};
 
-int port_number[NUM_MOTORS];
+int port_numbers[NUM_MOTORS];        //motor RS422 ports
 
+/*  Joseph only wants aileron control, but I originally had functionality for up and down movement as well.
+    I'm leaving this here in case we want it down the line*/
 #define Y_AXIS_USED false
 
-/** @brief This function does the basic set up to set the spring configuration and enable effects, then calculates the appropriate spring center for each motor.
-*/
-void calculate_targets_haptic() {
+bool mode_set = false;      //determines if the motor has been inited into its haptic mode
 
+//initializes the motors with the haptics we want, and does the actual motor movement
+void calculate_targets_haptic() {
     if (!mode_set) {
         for (int i = 0; i < NUM_MOTORS; i++) {
-            motors[i].write_register(D0_GAIN_NS_MM, uint16_t(5000));
+            motors[i].write_register(D0_GAIN_NS_MM, damper_configuration);
             motors[i].write_register(HAPTIC_STATUS, Actuator::Damper);
-            motors[i].write_register(I0_GAIN_NS2_MM, uint16_t(5000));
+            motors[i].write_register(I0_GAIN_NS2_MM, inertia_configuration);
             motors[i].write_register(HAPTIC_STATUS, Actuator::Inertia);
             motors[i].write_registers(S0_GAIN_N_MM, 6, spring_configuration);
             motors[i].write_register(HAPTIC_STATUS, Actuator::Spring0);
@@ -55,13 +58,9 @@ void calculate_targets_haptic() {
         mode_set = true;
     }
 
-    final_target[0] = aileron_targets[0];
-    final_target[1] = aileron_targets[1];
-
-    motors[0].update_write_stream(2, S0_CENTER_UM, final_target[0]);
-    motors[1].update_write_stream(2, S0_CENTER_UM, final_target[1]);
+    motors[0].update_write_stream(2, S0_CENTER_UM, spring_targets[0]);
+    motors[1].update_write_stream(2, S0_CENTER_UM, spring_targets[1]);
 }
-
 
 //timer is used to allow smooth communications.
 void motor_comms() {
@@ -77,39 +76,12 @@ void motor_comms() {
     }
 }
 
-void startText() {
-    system("cls");
-    cout << "  /------------------------------------------------------------------\\ " << endl;
-    cout << " /                                                                    \\ " << endl;
-    cout << "|  Welcome to the Merlin Machine Works joystick test using IRIS Orcas  |" << endl;
-    cout << " \\                                                                    /" << endl;
-    cout << "  \\------------------------------------------------------------------/" << endl << endl;
-}
 
-void instructText() {
-    if (Y_AXIS_USED) {
-        cout << " -Y Axis: Aileron Up" << endl;
-        cout << "  Y Axis: Aileron Down" << endl;
-    }
-    cout << "  X Axis: Aileron Left" << endl;
-    cout << " -X Axis: Aileron Right" << endl << endl;
-    
-    cout << "Button 5: Resume Motor Control" << endl;
-    cout << "Button 6: Pause Motor Control" << endl;
-    cout << "Button 7: Close Program" << endl << endl;
-    cout << "-----------------------------------------------------------------------" << endl << endl;
-}
-
-void portText() {
-    cout << "Using ports " + String(port_number[0]) + " and " + String(port_number[1]) << endl << endl;
-}
-
-void allRunningText() {
-    startText();
-    portText();
-    instructText();
-}
-
+/////////////////////////
+//                     //
+//      MAIN FUNC      //
+//                     //
+/////////////////////////
 int main()
 {
     startText();
@@ -134,7 +106,7 @@ int main()
         string port_input;
         getline(cin, port_input);
         try {
-            port_number[0] = stoi(port_input);
+            port_numbers[0] = stoi(port_input);
             break;
         }
         catch (exception e) {
@@ -146,7 +118,7 @@ int main()
         string port_input;
         getline(cin, port_input);
         try {
-            port_number[1] = stoi(port_input);
+            port_numbers[1] = stoi(port_input);
             break;
         }
         catch (exception e) {
@@ -154,8 +126,9 @@ int main()
         }
     }
 
+    //goofy ah 1250000 baud rate
     for (int i = 0; i < NUM_MOTORS; i++) {
-        motors[i].set_new_comport(port_number[i]);
+        motors[i].set_new_comport(port_numbers[i]);
         connection_params.target_baud_rate_bps = 1250000;
         connection_params.target_delay_us = 0;
         motors[i].set_connection_config(connection_params);
@@ -169,22 +142,29 @@ int main()
 
     allRunningText();
 
-    bool slep = false;
+    //only allows event loop to do sleeps and resumes when it needs to
+    bool mot_asleep = false;
 
+    /////////////////////////////
+    //                         //
+    //      RUNNING LOOP       //
+    //                         //
+    /////////////////////////////
     while (1) {
         SDL_Event ev;
 
+        //event loop when joystick is doing things
         while (SDL_PollEvent(&ev))
         {
-            if(SDL_JoystickGetButton(joy, 4) && slep) {
-                slep = false;
+            if(SDL_JoystickGetButton(joy, 4) && mot_asleep) {
+                mot_asleep = false;
                 motors[0].set_mode(Actuator::HapticMode);
                 motors[1].set_mode(Actuator::HapticMode);
                 allRunningText();
                 cout << "Motor Control Resumed" << endl;
             }
-            else if (SDL_JoystickGetButton(joy, 5) && !slep) {
-                slep = true;
+            else if (SDL_JoystickGetButton(joy, 5) && !mot_asleep) {
+                mot_asleep = true;
                 motors[0].set_mode(Actuator::SleepMode);
                 motors[1].set_mode(Actuator::SleepMode);
                 allRunningText();
@@ -196,21 +176,56 @@ int main()
                 exit(1);
             }
 
-            float joyCalc[2];
-
+            //calculate desired spring center based on joystick positions
             if (Y_AXIS_USED) {
-                joyCalc[0] = aileron_defaults[0] + (SDL_JoystickGetAxis(joy, 1) / -32767.0 * aileron_joystick_weight[0][1] + SDL_JoystickGetAxis(joy, 0) / 32767.0 * aileron_joystick_weight[0][0]);
-                joyCalc[1] = aileron_defaults[1] + (SDL_JoystickGetAxis(joy, 1) / -32767.0 * aileron_joystick_weight[1][1] - SDL_JoystickGetAxis(joy, 0) / 32767.0 * aileron_joystick_weight[1][0]);
+                spring_targets[0] = pos_defs[0] + (SDL_JoystickGetAxis(joy, 1) / -32767.0 * joy_weights[0][1] + SDL_JoystickGetAxis(joy, 0) / 32767.0 * joy_weights[0][0]);
+                spring_targets[1] = pos_defs[1] + (SDL_JoystickGetAxis(joy, 1) / -32767.0 * joy_weights[1][1] - SDL_JoystickGetAxis(joy, 0) / 32767.0 * joy_weights[1][0]);
             }
             else {
-                joyCalc[0] = aileron_defaults[0] + SDL_JoystickGetAxis(joy, 0) / 32767.0 * aileron_joystick_weight[0][0];
-                joyCalc[1] = aileron_defaults[1] - SDL_JoystickGetAxis(joy, 0) / 32767.0 * aileron_joystick_weight[1][0];
+                spring_targets[0] = pos_defs[0] + SDL_JoystickGetAxis(joy, 0) / 32767.0 * joy_weights[0][0];
+                spring_targets[1] = pos_defs[1] - SDL_JoystickGetAxis(joy, 0) / 32767.0 * joy_weights[1][0];
             }
-
-            aileron_targets[0] = joyCalc[0];
-            aileron_targets[1] = joyCalc[1];
         }
     }
 
     return 0;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//just for a pretty CLI
+void startText() {
+    system("cls");
+    cout << "  /------------------------------------------------------------------\\ " << endl;
+    cout << " /                                                                    \\ " << endl;
+    cout << "|  Welcome to the Merlin Machine Works joystick test using IRIS Orcas  |" << endl;
+    cout << " \\                                                                    /" << endl;
+    cout << "  \\------------------------------------------------------------------/" << endl << endl;
+}
+
+//just for a pretty CLI
+void instructText() {
+    if (Y_AXIS_USED) {
+        cout << " -Y Axis: Aileron Up" << endl;
+        cout << "  Y Axis: Aileron Down" << endl;
+    }
+    cout << "  X Axis: Aileron Left" << endl;
+    cout << " -X Axis: Aileron Right" << endl << endl;
+
+    cout << "Button 5: Resume Motor Control" << endl;
+    cout << "Button 6: Pause Motor Control" << endl;
+    cout << "Button 7: Close Program" << endl << endl;
+    cout << "-----------------------------------------------------------------------" << endl << endl;
+}
+
+//just for a pretty CLI
+void portText() {
+    cout << "Using ports " + String(port_numbers[0]) + " and " + String(port_numbers[1]) << endl << endl;
+}
+
+//just for a pretty CLI
+void allRunningText() {
+    startText();
+    portText();
+    instructText();
 }
