@@ -76,6 +76,43 @@ void motor_comms() {
     }
 }
 
+//just for a pretty CLI
+void startText() {
+    system("cls");
+    cout << "  /------------------------------------------------------------------\\ " << endl;
+    cout << " /                                                                    \\ " << endl;
+    cout << "|  Welcome to the Merlin Machine Works joystick test using IRIS Orcas  |" << endl;
+    cout << " \\                                                                    /" << endl;
+    cout << "  \\------------------------------------------------------------------/" << endl << endl;
+}
+
+//just for a pretty CLI
+void instructText() {
+    if (Y_AXIS_USED) {
+        cout << " -Y Axis: Aileron Up" << endl;
+        cout << "  Y Axis: Aileron Down" << endl;
+    }
+    cout << "  X Axis: Aileron Left" << endl;
+    cout << " -X Axis: Aileron Right" << endl << endl;
+
+    cout << "Button 5: Resume Motor Control" << endl;
+    cout << "Button 6: Pause Motor Control" << endl;
+    cout << "Button 7: Close Program" << endl << endl;
+    cout << "-----------------------------------------------------------------------" << endl << endl;
+}
+
+//just for a pretty CLI
+void portText() {
+    cout << "Using ports " + String(port_numbers[0]) + " and " + String(port_numbers[1]) << endl << endl;
+}
+
+//just for a pretty CLI
+void allRunningText() {
+    startText();
+    portText();
+    instructText();
+}
+
 
 /////////////////////////
 //                     //
@@ -189,43 +226,4 @@ int main()
     }
 
     return 0;
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-//just for a pretty CLI
-void startText() {
-    system("cls");
-    cout << "  /------------------------------------------------------------------\\ " << endl;
-    cout << " /                                                                    \\ " << endl;
-    cout << "|  Welcome to the Merlin Machine Works joystick test using IRIS Orcas  |" << endl;
-    cout << " \\                                                                    /" << endl;
-    cout << "  \\------------------------------------------------------------------/" << endl << endl;
-}
-
-//just for a pretty CLI
-void instructText() {
-    if (Y_AXIS_USED) {
-        cout << " -Y Axis: Aileron Up" << endl;
-        cout << "  Y Axis: Aileron Down" << endl;
-    }
-    cout << "  X Axis: Aileron Left" << endl;
-    cout << " -X Axis: Aileron Right" << endl << endl;
-
-    cout << "Button 5: Resume Motor Control" << endl;
-    cout << "Button 6: Pause Motor Control" << endl;
-    cout << "Button 7: Close Program" << endl << endl;
-    cout << "-----------------------------------------------------------------------" << endl << endl;
-}
-
-//just for a pretty CLI
-void portText() {
-    cout << "Using ports " + String(port_numbers[0]) + " and " + String(port_numbers[1]) << endl << endl;
-}
-
-//just for a pretty CLI
-void allRunningText() {
-    startText();
-    portText();
-    instructText();
 }
