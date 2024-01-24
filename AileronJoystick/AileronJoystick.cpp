@@ -15,24 +15,14 @@ Actuator motors[NUM_MOTORS]{
 };
 Actuator::ConnectionConfig connection_params;
 
-uint16_t damper_configuration = 5000;           //desired motor dampening
-uint16_t inertia_configuration = 5000;          //desired motor inertial weight
-
-uint16_t spring_configuration[6] = { 6000               //spring gain
-                                 , (uint16_t)(65000)    //spring center low register
-                                 , (65000 >> 16)        //spring center high register
-                                 ,  0                   //spring coupling 
-                                 ,  0                   //spring dead zone 
-                                 ,  0 };                //spring saturation
-
 int max_pos[2] = { {130000}, {130000} };            //the total range of motor positions
 
 int pos_defs[2] = { max_pos[0] / 2, max_pos[1] / 2 };         //our "back to center" values
 int spring_targets[2] = { pos_defs[0], pos_defs[1] };       //spring center target positions
 
 int joy_weights[2][2] = {                        //How far the motor moves at max joystick throw. First dimension is the motor, second dimension is the axis(X, Y)
-    { max_pos[0] * 7 / 16, max_pos[0] * 2 / 16 },
-    { max_pos[1] * 7 / 16, max_pos[1] * 2 / 16 }
+    { max_pos[0] * 2 / 16, max_pos[0] * 2 / 16 },
+    { max_pos[1] * 2 / 16, max_pos[1] * 2 / 16 }
 };
 
 int port_numbers[NUM_MOTORS];        //motor RS422 ports
@@ -41,32 +31,26 @@ int port_numbers[NUM_MOTORS];        //motor RS422 ports
     I'm leaving this here in case we want it down the line*/
 #define Y_AXIS_USED false
 
-bool mode_set = false;      //determines if the motor has been inited into its haptic mode
+bool mode_set = false;      //determines if the motor has been inited into its position mode
 
-//initializes the motors with the haptics we want, and does the actual motor movement
-void calculate_targets_haptic() {
+//initializes the motors with the position we want, and does the actual motor movement
+void calculate_targets_position() {
     if (!mode_set) {
         for (int i = 0; i < NUM_MOTORS; i++) {
-            //motors[i].write_register(D0_GAIN_NS_MM, damper_configuration);
-            //motors[i].write_register(HAPTIC_STATUS, Actuator::Damper);
-            //motors[i].write_register(I0_GAIN_NS2_MM, inertia_configuration);
-            //motors[i].write_register(HAPTIC_STATUS, Actuator::Inertia);
-            motors[i].write_registers(S0_GAIN_N_MM, 6, spring_configuration);
-            motors[i].write_register(HAPTIC_STATUS, Actuator::Spring0);
-            motors[i].set_mode(Actuator::HapticMode);
+            motors[i].set_mode(Actuator::PositionMode);
         }
         mode_set = true;
     }
 
-    motors[0].update_write_stream(2, S0_CENTER_UM, spring_targets[0]);      //we're setting the center of spring to our desired aileron position
-    motors[1].update_write_stream(2, S0_CENTER_UM, spring_targets[1]);
+    motors[0].update_write_stream(1, POS_CMD, spring_targets[0]);           //we're setting the center of spring to our desired aileron position
+    motors[1].update_write_stream(1, POS_CMD, spring_targets[1]);
 }
 
 //timer is used to allow smooth communications.
 void motor_comms() {
     while (1) {
         if (motors[0].is_connected() && motors[1].is_connected()) {
-            calculate_targets_haptic();
+            calculate_targets_position();
         }
 
         for (int i = 0; i < NUM_MOTORS; i++) {
@@ -195,8 +179,8 @@ int main()
         {
             if(SDL_JoystickGetButton(joy, 4) && mot_asleep) {
                 mot_asleep = false;
-                motors[0].set_mode(Actuator::HapticMode);
-                motors[1].set_mode(Actuator::HapticMode);
+                motors[0].set_mode(Actuator::PositionMode);
+                motors[1].set_mode(Actuator::PositionMode);
                 allRunningText();
                 cout << "Motor Control Resumed" << endl;
             }
@@ -210,6 +194,7 @@ int main()
             else if (SDL_JoystickGetButton(joy, 6)) {
                 motors[0].set_mode(Actuator::SleepMode);
                 motors[1].set_mode(Actuator::SleepMode);
+                Sleep(1000);
                 exit(1);
             }
 

@@ -65,8 +65,8 @@
 \\merlincloud\Public\(850,52): warning C4244: 'argument': conversion from 'uint16_t' to 'uint8_t', possible loss of data
   (compiling source file '../../../../#MERLIN%20MACHINEWORKS#/IRIS%20Dynamics/IrisHAWK/AileronJoystick/AileronJoystick.cpp')
   
-\\merlincloud\Public\(218,49): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-\\merlincloud\Public\(219,49): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-\\merlincloud\Public\(222,49): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-\\merlincloud\Public\(223,49): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+\\merlincloud\Public\(204,49): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+\\merlincloud\Public\(205,49): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+\\merlincloud\Public\(208,49): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+\\merlincloud\Public\(209,49): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
   AileronJoystick.vcxproj -> \\MERLINCLOUD\Public\#MERLIN MACHINEWORKS#\IRIS Dynamics\IrisHAWK\AileronJoystick\x64\Debug\AileronJoystick.exe
