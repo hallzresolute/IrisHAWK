@@ -42,8 +42,8 @@ void calculate_targets_position() {
         mode_set = true;
     }
 
-    motors[0].update_write_stream(1, POS_CMD, spring_targets[0]);           //we're setting the center of spring to our desired aileron position
-    motors[1].update_write_stream(1, POS_CMD, spring_targets[1]);
+    motors[0].update_write_stream(2, POS_CMD, spring_targets[0]);           //we're setting the center of spring to our desired aileron position
+    motors[1].update_write_stream(2, POS_CMD, spring_targets[1]);
 }
 
 //timer is used to allow smooth communications.
